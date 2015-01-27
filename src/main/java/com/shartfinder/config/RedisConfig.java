@@ -16,8 +16,9 @@ public class RedisConfig {
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
         JedisConnectionFactory factory = new JedisConnectionFactory();
-        factory.setHostName("localhost");
-        factory.setPort(6379);
+        factory.setHostName("pub-redis-18240.us-east-1-3.1.ec2.garantiadata.com");
+        factory.setPort(18240);
+        factory.setPassword("abc123");
         factory.setUsePool(true);
         return factory;
     }
