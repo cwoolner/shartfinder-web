@@ -122,10 +122,10 @@ public class RedisLoginRepository implements LoginRepository {
         saveUsernameAndPassword("player3", new BCryptPasswordEncoder().encode("player3"));
         saveUsernameAndPassword("player4", new BCryptPasswordEncoder().encode("player4"));
 
-        saveAggregateIdAndUsername(UUID.randomUUID(), "player1");
-        saveAggregateIdAndUsername(UUID.randomUUID(), "player2");
-        saveAggregateIdAndUsername(UUID.randomUUID(), "player3");
-        saveAggregateIdAndUsername(UUID.randomUUID(), "player4");
+        saveAggregateIdAndUsername(UUID.fromString("efc4d149-41b9-4efd-8282-2b87146b3b21"), "player1");
+        saveAggregateIdAndUsername(UUID.fromString("4cd438e4-b686-4f80-a4e9-9ef21c096e77"), "player2");
+        saveAggregateIdAndUsername(UUID.fromString("d7411446-d1ba-45db-ab8f-16b3264c7dc0"), "player3");
+        saveAggregateIdAndUsername(UUID.fromString("d9d3bba1-d0f1-449e-8c7c-f038769deeca"), "player4");
     }
 
 }
