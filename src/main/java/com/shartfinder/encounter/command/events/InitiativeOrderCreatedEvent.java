@@ -9,15 +9,15 @@ import com.shartfinder.encounter.command.framework.EncounterEvent;
 import com.shartfinder.encounter.command.framework.EncounterEventType;
 import com.shartfinder.framework.event.BaseEvent;
 
-public class InitiativeOrderUpdatedEvent extends BaseEvent<EncounterEventType> implements
+public class InitiativeOrderCreatedEvent extends BaseEvent<EncounterEventType> implements
         EncounterEvent {
 
-    private static final EncounterEventType TYPE = EncounterEventType.InitiativeOrderUpdated;
+    private static final EncounterEventType TYPE = EncounterEventType.InitiativeOrderCreated;
 
     private final List<UUID> playerIds;
 
     @JsonCreator
-    public InitiativeOrderUpdatedEvent(
+    public InitiativeOrderCreatedEvent(
             @JsonProperty(value = "aggregateId") UUID aggregateId,
             @JsonProperty(value = "playerIds") List<UUID> playerIds) {
         super(aggregateId, TYPE);

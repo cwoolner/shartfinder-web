@@ -4,6 +4,6 @@ import com.shartfinder.framework.event.EventType;
 
 public enum EncounterEventType implements EventType {
 
-    EncounterCreated, InitiativeOrderUpdated
+    EncounterCreated, InitiativeOrderCreated
 
 }

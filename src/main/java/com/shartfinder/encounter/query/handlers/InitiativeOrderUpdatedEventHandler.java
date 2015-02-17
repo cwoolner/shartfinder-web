@@ -5,7 +5,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Component;
 
 import com.shartfinder.core.api.chat.SendChatMessageCommand;
-import com.shartfinder.encounter.command.events.InitiativeOrderUpdatedEvent;
+import com.shartfinder.encounter.command.events.InitiativeOrderCreatedEvent;
 import com.shartfinder.encounter.query.repository.EncounterRepository;
 import com.shartfinder.framework.event.EventHandler;
 import com.shartfinder.framework.pushnotifier.PushNotification;
@@ -15,7 +15,7 @@ import com.shartfinder.web.model.EncounterViewModel;
 
 @Component
 public class InitiativeOrderUpdatedEventHandler implements
-        EventHandler<InitiativeOrderUpdatedEvent> {
+        EventHandler<InitiativeOrderCreatedEvent> {
 
     private final EncounterRepository encounterRepository;
 
@@ -33,13 +33,13 @@ public class InitiativeOrderUpdatedEventHandler implements
     }
 
     @Override
-    public void handle(InitiativeOrderUpdatedEvent event) {
+    public void handle(InitiativeOrderCreatedEvent event) {
         handleUpdatingEncounterViewModel(event);
         handlePushNotifications(event);
         handleChat();
     }
 
-    private void handleUpdatingEncounterViewModel(InitiativeOrderUpdatedEvent event) {
+    private void handleUpdatingEncounterViewModel(InitiativeOrderCreatedEvent event) {
         EncounterViewModel currentEncounterViewModel = encounterRepository
                 .fetchById(event.getAggregateId());
         // TODO: update the list in the view model
@@ -48,7 +48,7 @@ public class InitiativeOrderUpdatedEventHandler implements
         encounterRepository.save(updatedEncounterViewModel);
     }
 
-    private void handlePushNotifications(InitiativeOrderUpdatedEvent event) {
+    private void handlePushNotifications(InitiativeOrderCreatedEvent event) {
         PushNotification pushNotification = new EncounterUpdatedPushNotification(
                 event.getAggregateId());
         pushNotificationPublisher.publish(pushNotification);

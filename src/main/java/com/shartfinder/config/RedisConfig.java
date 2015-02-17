@@ -7,11 +7,16 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.listener.PatternTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.shartfinder.encounter.command.framework.EncounterCommand;
 import com.shartfinder.encounter.command.framework.EncounterEvent;
+import com.shartfinder.encounter.command.framework.EncounterEventType;
+import com.shartfinder.framework.event.EventSubscriber;
 
 @Configuration
 public class RedisConfig {
@@ -51,8 +56,35 @@ public class RedisConfig {
     }
 
     @Bean
+    RedisTemplate<String, EncounterEvent> redisTemplateEncounterEvent() {
+        RedisTemplate<String, EncounterEvent> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(
+                EncounterCommand.class));
+        redisTemplate.setConnectionFactory(jedisConnectionFactory());
+        return redisTemplate;
+    }
+
+    @Bean
     CacheManager cacheManager() {
         return new RedisCacheManager(redisTemplate());
+    }
+
+    @Bean
+    RedisMessageListenerContainer container(JedisConnectionFactory connectionFactory,
+            MessageListenerAdapter listenerAdapter) {
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        container.addMessageListener(listenerAdapter, new PatternTopic("*"));
+        return container;
+    }
+
+    @Bean
+    MessageListenerAdapter listenerAdapter(EventSubscriber<EncounterEventType> subscriber) {
+        MessageListenerAdapter listener = new MessageListenerAdapter(subscriber,
+                "receive");
+        listener.setSerializer(new Jackson2JsonRedisSerializer<>(EncounterEvent.class));
+        return listener;
     }
 
 }
