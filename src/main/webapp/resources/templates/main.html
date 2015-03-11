@@ -1,4 +1,21 @@
 <div>
+  <div id="header">
+    <div class="left">Goblin Ball Battle</div>
+    <div class="right">Round #8</div>
+    <h1 >
+      <ul>
+        <li ng-repeat="combatant in encounter.getCombatants()">
+          <div class="container">
+              <div class="combatantName flex-item">{{combatant.combatantName}}</div>
+              <div class="HP flex-item">{{combatant.currentHP}} / {{combatant.maxHP}} </div>
+              <div class="status flex-item">{{combatant.status}}</div>
+              <div class="context flex-item">:</div>
+          </div>
+        </li>
+      </ul>
+  </div>
+</div>
+<div>
 
   <form name="trigger-dice-roll-form" ng-submit="sendDiceRoll()">
     <div>

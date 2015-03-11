@@ -24,19 +24,17 @@ var rootUrl = "<c:url value='/' />";
 <script type="text/javascript" src="<c:url value='/resources/scripts/routes.js' />"></script>
 
 <title>Home</title>
+<link href="/resources/stylesheets/screen.css" rel="stylesheet" type="text/css">
 </head>
 
 <body ng-app="flexpoker">
 
 <p>Logged in as: <span class="username"><sec:authentication property="principal.username" /></span></p>
 
-<p ng-controller="LogoutController"><a href='<c:url value="/logout" />' ng-click="logout()">Logout</a></p>
-
-<div ng-controller="MainController">
-
-</div>
 
 <div ng-view></div>
+
+<p ng-controller="LogoutController"><a href='<c:url value="/logout" />' ng-click="logout()">Logout</a></p>
 
 </body>
 </html>
